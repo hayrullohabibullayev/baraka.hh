@@ -1,0 +1,107 @@
+{% extends  "siteapp/becikTable.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><span style="color: red;">Q</span>arzlar Jadvali</h4>
+                {% if request.user.is_superuser or request.user.is_staff %}
+                    <a href="{% url 'debtBookCreate' %}"><button style="width: 100%;" type="submit" class="btn btn-primary btn-round"><span style="color: green;">jadvalga odam Qo'shish</button></a>
+                {% endif %}
+                </div>
+            <form method="POST">
+            {% csrf_token %}  
+                <div style=" padding-left: 20%; width: 60%px; height: 30px; padding-right: 20%;" class="input-group no-border">  
+                    <input name="q" type="text"  class="form-control" placeholder="Full_name...">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <button type="submit" class="nc-icon nc-zoom-split"></button>
+                            </div>
+                        </div> 
+                </div>
+            </form> 
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class=" text-primary">
+                            <th style="padding-left: 25px;">
+                               full name
+                            </th>
+                            <th  style="padding-left: 25px;">
+                               add date
+                            </th>
+                            <th  style="padding-left: 25px;">
+                               Dabt price
+                            </th>
+                            {% if request.user.is_superuser %}
+                                <th style="padding-left: 25px;">
+                                Ustiga qo'yilgan pul 
+                                </th>
+                            {% endif %}
+                            <th style="padding-left: 25px;">
+                                End date
+                            </th>
+                            {% if request.user.is_superuser %}
+                                <th style="padding-left: 5px;">
+                                    mahsulot tanarxi
+                                </th>
+                            {% endif %}
+                            {% if request.user.is_superuser %}
+                                <th style="padding-left: 5px;">
+                                    mahsulot ustki narxi</p>
+                                </th>
+                            {% endif %}
+                            {% if request.user.is_superuser or request.user.is_staff %}
+                               <th>
+                                   QoshimChallar
+                               </th>
+                            {% endif %}    
+                        </thead>
+                    <tbody>
+                    {% for  Book in Books %}  
+                        <tr>
+                            <td>
+                                {{ Book.full_name }}
+                            </td>
+                            <td>
+                                {{ Book.ad_Date }}
+                            </td>
+                            <td>
+                                {{ Book.borrowed }}
+                            </td>
+                            {% if request.user.is_superuser %}
+                                <td>
+                                    {{ Book.top_price }}
+                                </td>
+                            {% endif %}
+                                <td>
+                                    {{ Book.return_date }}
+                                </td>
+                            {% if request.user.is_superuser %}
+                                <td >
+                                    {{ Book.tannarx }}
+                                </td>
+                                <td>
+                                    {{ Book.ustki_narx }}
+                                </td>
+                            {% endif %}
+                            {% if request.user.is_superuser or request.user.is_staff %}
+                                <td>
+                                    <a  href="{% url 'ubdateDebt' Book.id %}" style="font-size: 20px; color: blue;"><i class="fa fa-pencil icon"></i></a>
+                                </td>
+                            {% endif %}
+                            {% if request.user.is_superuser %}
+                                <td>
+                                    <a  href="{% url 'deleteDebt' Book.id %}" style="font-size: 20px; color: red;"><i class="fa fa-trash-o icon"></i></a>
+                                </td>
+                            {% endif %}   
+                        </tr>
+                    {% endfor %}  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

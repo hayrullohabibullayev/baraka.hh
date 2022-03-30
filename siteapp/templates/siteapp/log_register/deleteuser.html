@@ -1,0 +1,36 @@
+{% extends 'siteapp/bacik.html' %}
+{% load static %}
+{% load  widget_tweaks %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+      <div class="card card-user">
+        <div class="card-header">
+          <h5 class="card-title">Are You Should to delete </h5>
+        </div>
+        <div class="card-body">
+          <form method="POST" action="{% url 'daleteabarots' product.id  %}">
+          {% csrf_token %}  
+            <div style="padding-left: 35px;" class="row">
+                <div class="col-md-11 pr-1">
+                    <div class="form-group">
+                        <label>Salom {{ request.user }} siz shu mahsullotni uchirmoqchimisiz. Agar uchirmoqchi bo'lsangiz pasdagi sabmit tugmasini bosing</label>
+                        <input style="padding-left: 150px;" type="text" class="form-control" disabled="" placeholder="Baraka" value="{{ product }}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="update ml-auto mr-auto">
+                    <a href=""><button type="submit" class="btn btn-primary btn-round">submit</button></a>
+                </div>
+                <div class="update ml-auto mr-auto">
+                    <a href="{% url 'dashboard' %}"><button type="button" class="btn btn-primary btn-round">cancel</button></a>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

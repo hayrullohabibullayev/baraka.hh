@@ -1,0 +1,75 @@
+{% extends  "siteapp/becikTable.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><span style="color: red;">F</span>oydalanuvchilar jadvali</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class=" text-primary">
+                            <th  style="padding-left: 25px;">
+                               username
+                            </th>
+                            <th  style="padding-left: 25px;">
+                               email(adress)
+                            </th>
+                            <th  style="padding-left: 25px;">
+                               to'lliq Isim
+                            </th>
+                            <th style="padding-left: 25px;">
+                                adress
+                            </th>
+                            <th style="padding-left: 5px;">
+                                Shahar
+                            </th>
+                            <th style="padding-left: 5px;">
+                                Davlat
+                            </th>
+                            <th>
+                                postall(code)
+                            </th>  
+                        </thead>
+                    <tbody>
+                    {% for  userprofile in userprofil %}  
+                        <tr>
+                            <td>
+                                {{ userprofile.username }}
+                            </td>
+                            <td>
+                                {{ userprofile.emeail_adress }}
+                            </td>
+                            <td>
+                                {{ userprofile.full_name }}
+                            </td>
+                            <td>
+                                {{ userprofile.adress }}
+                            </td>
+                            <td >
+                                {{ userprofile.city }}
+                            </td>
+                            <td>
+                                {{ userprofile.country }}
+                            </td>
+                            <td>
+                                {{ userprofile.postal_code }}
+                            </td>
+                            {% if request.user.is_superuser %}
+                                <td>
+                                    <a  href="{% url 'delete_profile' userprofile.id %}" style="font-size: 20px; color: red;"><i class="fa fa-trash-o icon"></i></a>
+                                </td>
+                            {% endif %}  
+                        </tr>
+                    {% endfor %}  
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

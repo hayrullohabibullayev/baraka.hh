@@ -1,0 +1,69 @@
+{% extends  "siteapp/becikTable.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><span style="color: red;">Z</span>akaz Table</h4>
+                    <a href="{% url 'buyurtmaCreates' %}"><button type="submit" class="btn btn-primary btn-round"><span style="color: red;">Zakaz Qo'shish<i style="font-size: 20px; color: green;" class="fa fa-pencil icon"></i><i style="font-size: 20px; color: green;" class="fa fa-pencil icon"></i><i style="font-size: 20px; color: green;" class="fa fa-pencil icon"></i></button></a>
+            </div>
+            <form method="POST">
+            {% csrf_token %}  
+                <div style="padding-left: 20%; width: 60%px; height: 30px; padding-right: 20%;" class="input-group no-border">  
+                    <input name="q" type="text"  class="form-control" placeholder="Full_name...">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <button type="submit" class="nc-icon nc-zoom-split"></button>
+                            </div>
+                        </div> 
+                </div>
+            </form> 
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class=" text-primary">
+                            <th  style="padding-left: 25px;">
+                               product name
+                            </th>
+                            <th  style="padding-left: 25px;">
+                               product quantity
+                            </th> 
+                            <th  style="padding-left: 25px;">
+                               created data
+                            </th>                        
+                            <th>
+                                Qo'shimchalar
+                            </th>
+                        </thead>
+                    <tbody>
+                    {% for  b in buyurtma %}  
+                        <tr>
+                            <td>
+                                {{ b.zakaz_nomi }}
+                            </td>
+                            <td>
+                                {{ b.zakaz_soni }}
+                            </td>
+                            <td>
+                                {{ b.create_date }}
+                            </td>
+                            <td>
+                                {% if request.user.is_superuser or request.user.is_staff %}
+                                    <a href="{% url 'zakas-update' b.id %}" style="font-size: 25px; color: blue; padding-left: 5%;"><i class="fa fa-pencil icon"></i></button></a>
+                                {% endif %}
+                                {% if request.user.is_superuser %}
+                                    <a href="{% url 'zakas-delete' b.id %}" style="font-size: 25px; color: red; padding-left: 10%;"><i class="fa fa-trash-o icon"></i></button></a>
+                                {% endif %} 
+                            </td>
+                        </tr>
+                    {% endfor %}  
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

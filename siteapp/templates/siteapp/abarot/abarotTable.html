@@ -1,0 +1,82 @@
+{% extends  "siteapp/becikTable.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Riviziya</h4>
+            </div>
+            <form method="POST">
+                {% csrf_token %}  
+                <div style="padding-left: 20%; width: 60%px; height: 30px; padding-right: 20%;" class="input-group no-border">  
+                    <input name="b" type="text"  class="form-control" placeholder="Product name">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <button type="submit" class="nc-icon nc-zoom-split"></button>
+                        </div>
+                    </div> 
+                </div>
+              </form> 
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <a href="{% url 'abarot' %}"><button style='width: 100%;' type="submit" class="btn btn-primary btn-round">Add Product</span></button></a>
+                        <thead class=" text-primary">
+                            <th  style="padding-left: 25px;">
+                                Product name
+                            </th>
+                            <th style="padding-left: 25px;">
+                                Product price
+                            </th>
+                            <th  style="padding-left: 25px;">
+                                product quantity
+                            </th>
+                            {% if request.user.is_superuser %}
+                            <th style="padding-left: 25px;">
+                                Product total price 
+                            </th>
+                            {% endif %}
+                            <th>
+                                Qo'shimchalar
+                            </th>
+                        </thead>
+                        <tbody>
+                        {% for  product in products %}  
+                            <tr>
+                                <td>
+                                    {{ product.product_name }}
+                                </td>
+                                <td name='m'>
+                                    {{ product.product_price }}
+                                </td>
+                                <td>
+                                    {{ product.number_product }}
+                                </td>
+                                {% if request.user.is_superuser %}
+                                <td>
+                                    {{ product.product_total_price }}
+                                </td>
+                                {% endif %}
+                            <td>
+                            {% if request.user.is_superuser or request.user.is_staff %}
+                                <a  href="{% url 'ubdateabarots' product.id %}" style="font-size: 20px; color: blue;"><i class="fa fa-pencil icon"></i></a>
+                            {% endif %}
+                            </td>
+                            <td>
+                            {% if request.user.is_superuser %}
+                                    <a  href="{% url 'daleteabarots' product.id %}" style="font-size: 20px; color: red;"><i class="fa fa-trash-o icon"></i></a>
+                            {% endif %}     
+                            </td>
+                            </tr>
+                        {% endfor %}   
+                        </tbody>
+                    </form>     
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
